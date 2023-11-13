@@ -53,12 +53,12 @@ using a PAM matrix.ty
 Steps:
 1. Arg_Parser Code:
 The code takes the following inputs:
-- - e: to set the epitope amino acid sequence
-- - n: to set the initial naive B cell population
-- - d: to set the division rate of the antigens
-- - p: to set the number of antibodies produced by each B cell
-- - ex: to set the number of times B cells undergo Somatic Hypermutation
-- - ri: to tell whether reinfection occurs or not
+- -e: to set the epitope amino acid sequence
+- -n: to set the initial naive B cell population
+- -d: to set the division rate of the antigens
+- -p: to set the number of antibodies produced by each B cell
+- -ex: to set the number of times B cells undergo Somatic Hypermutation
+- -ri: to tell whether reinfection occurs or not
     
 2. Ant_Lymph Code:
 - This code organizes the properties of the antigen epitope and the B cells
@@ -73,60 +73,60 @@ the process of natural selection. The PAM matrix is a 20*20 matrix where each ro
 depict one amino acid. Each entry in the matrix shows the likelihood that one amino acid will
 change into the other.
 Under the function ‘somatic_hyp’:
-1. First the epitope is stored and a dictionary of the starting population of B cells is
-created, with the population number as the key, and the paratope sequence as the
-value.
-Example output: {0: ['MYAPS'], 1: ['IRDEA'], 2: ['VMMRH'].. 249: ['TYLTP']}
-2. Then, the PAM matrix is stored as a dictionary.
-3. The number of amino acids which are matching between the epitope and paratope
-is calculated and stored as the fitness of each paratope.
-4. The number of individuals in each paratope population, as well as the fitness of
-each individual paratope is appended to the existing paratope dictionary.
-Example output: Starting populations: {0: ['MYAPS', 100, 0.0], 1: ['IRDEA', 100,
-0.0], 2: ['VMMRH', 100, 0.0].. 249: ['TYLTP', 100, 0.0]}
-5. Now the process of somatic hypermutation can begin. We assume that each
-individual in a population with a specific paratope undergoes the same type of
-mutations.
-6. For every type of paratope in the starting population of paratopes, we go through
-every amino acid, and randomly replace it with another amino acid. The
-likelihood of that amino acid being replaced is determined by their probabilities
-given by the PAM matrix.
-7. This is done a certain (user-set) number of times, and the fitness of each type of
-paratope is calculated again at the end.
-8. The dictionary with the new fitness values updated is given as the output:
-Example Output: Post-mutation dictionary from B-cell Hypermutation algorithm:
-{0: ['YLGGG', 100, 0.2], 1: ['LGGGG', 100, 0.2]..249: ['GIVAG', 100, 0.2]}
-This dictionary contains the mutated paratopes on the B cells, the number of
-antibodies produced having that paratope and their fitness.
+    1. First the epitope is stored and a dictionary of the starting population of B cells is
+    created, with the population number as the key, and the paratope sequence as the
+    value.
+    Example output: {0: ['MYAPS'], 1: ['IRDEA'], 2: ['VMMRH'].. 249: ['TYLTP']}
+    2. Then, the PAM matrix is stored as a dictionary.
+    3. The number of amino acids which are matching between the epitope and paratope
+   is calculated and stored as the fitness of each paratope.
+    4. The number of individuals in each paratope population, as well as the fitness of
+    each individual paratope is appended to the existing paratope dictionary.
+    Example output: Starting populations: {0: ['MYAPS', 100, 0.0], 1: ['IRDEA', 100,
+    0.0], 2: ['VMMRH', 100, 0.0].. 249: ['TYLTP', 100, 0.0]}
+    5. Now the process of somatic hypermutation can begin. We assume that each
+    individual in a population with a specific paratope undergoes the same type of
+    mutations.
+    6. For every type of paratope in the starting population of paratopes, we go through
+    every amino acid, and randomly replace it with another amino acid. The
+    likelihood of that amino acid being replaced is determined by their probabilities
+    given by the PAM matrix.
+    7. This is done a certain (user-set) number of times, and the fitness of each type of
+    paratope is calculated again at the end.
+    8. The dictionary with the new fitness values updated is given as the output:
+    Example Output: Post-mutation dictionary from B-cell Hypermutation algorithm:
+    {0: ['YLGGG', 100, 0.2], 1: ['LGGGG', 100, 0.2]..249: ['GIVAG', 100, 0.2]}
+    This dictionary contains the mutated paratopes on the B cells, the number of
+    antibodies produced having that paratope and their fitness.
 
 4. Main Code:
 This is the main code, which runs the game between antibodies and antigens.
 Under the function ‘immune_response’:
-1. The antibodies which have 0 affinity for the epitope after SH are all removed
-from the dictionary.
-2. From the remaining antibody populations, an agent-based game is run between
-the antibody and the antigen.
-3. In this, a number is randomly selected between 0 and 1, and if
-    a. That number is more than the fitness of the antibody, the antigen survives
+    1. The antibodies which have 0 affinity for the epitope after SH are all removed
+    from the dictionary.
+    2. From the remaining antibody populations, an agent-based game is run between
+    the antibody and the antigen.
+    3. In this, a number is randomly selected between 0 and 1, and if
+        a. That number is more than the fitness of the antibody, the antigen survives
         and divides while the antibody population size decreases by one
-  b. That number is less than the fitness of the antibody, the antigen population
-   size decreases by one, and the antibody population size increases by 2
-Although antibodies almost always die during their interactions with antigens and
-are also proteins which cannot replicate themselves, here we assume that, if an
-antibody wins against an antigen, it also dies but its parent B cell produces 2 more
-of that type of antibody, thus the net increase is 1.
-4. This game will run until all the antigens are eliminated, or until their numbers
-become more than 100000, in which case the antigens have won.
-5. OUTPUTS:
-    a. The surviving antibodies, their population size and fitness
-    b. The response time, i.e., the time taken for all the antigens to be eradicated.
-6. In case reinfection by the same antigen, that is, epitope, occurs, the agent based
-game is first run between the surviving antibodies and the antigen population.
-7. Only if all of the antibodies die in this process, then SH of new paratope
-populations occurs.
-8. OUTPUTS:
-    a. The surviving antibodies, their population size and fitness
-    b. The response time, i.e., the time taken for all the antigens to be eradicated.
+       b. That number is less than the fitness of the antibody, the antigen population
+       size decreases by one, and the antibody population size increases by 2
+    Although antibodies almost always die during their interactions with antigens and
+    are also proteins which cannot replicate themselves, here we assume that, if an
+    antibody wins against an antigen, it also dies but its parent B cell produces 2 more
+    of that type of antibody, thus the net increase is 1.
+    4. This game will run until all the antigens are eliminated, or until their numbers
+    become more than 100000, in which case the antigens have won.
+    5. OUTPUTS:
+        a. The surviving antibodies, their population size and fitness
+        b. The response time, i.e., the time taken for all the antigens to be eradicated.
+    6. In case reinfection by the same antigen, that is, epitope, occurs, the agent based
+    game is first run between the surviving antibodies and the antigen population.
+    7. Only if all of the antibodies die in this process, then SH of new paratope
+    populations occurs.
+    8. OUTPUTS:
+        a. The surviving antibodies, their population size and fitness
+        b. The response time, i.e., the time taken for all the antigens to be eradicated.
    
 Running the Code:
 1. Extract the folder
