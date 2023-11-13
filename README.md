@@ -65,14 +65,15 @@ The code takes the following inputs:
 - It generates multiple random paratopes of the same length as the antigen epitope.
   
 3. Bcell_Selection Code:
-This code models the SH process. In this process, cells undergo rapid division and mutation at
-specific genes. These mutations are semi-random, and may produce cells which can either
-recognise the epitope better, worse or the same amount. PAM stands for Point Accepted
-Mutations, which refer to changes in a single amino acid of a protein, which is accepted by
+- This code models the SH process. In this process, cells undergo rapid division and mutation at
+specific genes.
+- These mutations are semi-random, and may produce cells which can either
+recognise the epitope better, worse or the same amount.
+-PAM stands for Point Accepted Mutations, which refer to changes in a single amino acid of a protein, which is accepted by
 the process of natural selection. The PAM matrix is a 20*20 matrix where each row and column
 depict one amino acid. Each entry in the matrix shows the likelihood that one amino acid will
 change into the other.
-Under the function ‘somatic_hyp’:
+- Under the function ‘somatic_hyp’:
     1. First the epitope is stored and a dictionary of the starting population of B cells is
     created, with the population number as the key, and the paratope sequence as the
     value.
@@ -99,9 +100,9 @@ Under the function ‘somatic_hyp’:
     This dictionary contains the mutated paratopes on the B cells, the number of
     antibodies produced having that paratope and their fitness.
 
-4. Main Code:
-This is the main code, which runs the game between antibodies and antigens.
-Under the function ‘immune_response’:
+5. Main Code:
+- This is the main code, which runs the game between antibodies and antigens.
+- Under the function ‘immune_response’:
     1. The antibodies which have 0 affinity for the epitope after SH are all removed
     from the dictionary.
     2. From the remaining antibody populations, an agent-based game is run between
