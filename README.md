@@ -141,4 +141,4 @@ python Main.py -e ADPFG -n 10 -d 1 -p 800 -ex 100 -ri 1
 
 **References**
 
-- Code which was used and modified was from https://github.com/phicks22/CAIN
+- Code which was modified was from https://github.com/phicks22/CAIN
