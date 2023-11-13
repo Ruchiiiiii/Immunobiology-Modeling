@@ -137,3 +137,8 @@ the folder is saved between the quotes
 4. Run the following command:
 python Main.py -e ADPFG -n 10 -d 1 -p 800 -ex 100 -ri 1
 5. In case any packages need to be installed do: pip install ‘packagename’
+
+
+**References**
+
+- Code which was used and modified was from https://github.com/phicks22/CAIN
