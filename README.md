@@ -100,7 +100,7 @@ change into the other.
     This dictionary contains the mutated paratopes on the B cells, the number of
     antibodies produced having that paratope and their fitness.
 
-5. Main Code:
+4. Main Code:
 - This is the main code, which runs the game between antibodies and antigens.
 - Under the function ‘immune_response’:
     1. The antibodies which have 0 affinity for the epitope after SH are all removed
